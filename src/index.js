@@ -8,6 +8,8 @@ import Settings from './components/Settings/Settings';
 import Sales from './components/Sales/Sales';
 import Templates from './components/Templates/Templates';
 
+import './index.css';
+
 // import NotFound from './components/NotFound';
 
 const Root = () => (

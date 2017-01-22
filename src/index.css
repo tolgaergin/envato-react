@@ -3,3 +3,51 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.transition-wrapper {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(204, 204, 204, 0.32);
+  will-change: transform;
+}
+
+.fromRightToLeft-enter {
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+.fromRightToLeft-enter.fromRightToLeft-enter-active {
+  transform: translateX(0%);
+}
+
+.fromRightToLeft-leave {
+  transform: translateX(0%);
+  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+.fromRightToLeft-leave.fromRightToLeft-leave-active {
+  transform: translateX(-100%);
+}
+
+.fromLeftToRight-enter {
+  transform: translateX(-100%);
+  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+.fromLeftToRight-enter.fromLeftToRight-enter-active {
+  transform: translateX(0%);
+}
+
+.fromLeftToRight-leave {
+  transform: translateX(0%);
+  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+.fromLeftToRight-leave.fromLeftToRight-leave-active {
+  transform: translateX(100%);
+}

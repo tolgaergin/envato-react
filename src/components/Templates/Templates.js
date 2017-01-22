@@ -1,26 +1,7 @@
 import React, { Component } from 'react';
+import Envato from '../../envato';
 
 import Loading from '../Loading';
-
-const sampleData = {
-  'new-files-from-user': [
-    {
-      id: '10579013',
-      item: 'Pleasure - Material Design Responsive Admin Panel',
-      url: 'https://themeforest.net/item/pleasure-material-design-responsive-admin-panel/10579013',
-      user: 'teamfox',
-      thumbnail: 'https://preview-tf.s3.envato.com/files/135577473/Pleasure_Thumbnail.png',
-      sales: '765',
-      rating: '5.0',
-      rating_decimal: '4.79',
-      cost: '24.00',
-      uploaded_on: 'Sun Mar 01 10:16:26 +0000 2015',
-      last_update: 'Wed May 27 09:51:52 +0000 2015',
-      tags: 'admin, admin dashboard, material design, parallax, pleasure',
-      category: 'site-templates/admin-templates',
-    },
-  ],
-};
 
 class Templates extends Component {
   constructor() {
@@ -40,14 +21,29 @@ class Templates extends Component {
   }
 
   loadData() {
-    this.setState({
-      templates: sampleData,
-      isLoading: false,
+
+    const envato = Envato({
+      username: this.props.settings.username,
+      token: this.props.settings.token,
+    });
+
+    envato.authorFiles({
+      username: this.props.settings.username,
+      site: 'ThemeForest',
+    }, (err, data) => {
+      if (err) { return console.log('data'); }
+
+      this.props.handlePrevPath(this.props.location.pathname);
+
+      this.setState({
+        templates: data['new-files-from-user'],
+        isLoading: false,
+      });
     });
   }
 
   renderListItem(key) {
-    const template = this.state.templates['new-files-from-user'][key];
+    const template = this.state.templates[key];
     return (
       <li key={key}>
         {template.item}
@@ -56,18 +52,16 @@ class Templates extends Component {
   }
 
   render() {
-    //['new-files-from-user'].map(this.renderListItem)
-    //const list = this.state.templates['new-files-from-user'].item;
-    //this.state.templates['new-files-from-user'].map(template => console.log(template.item));
 
     if (this.state.isLoading) {
-      return <div><Loading /></div>;
+      return <div className="child" style={this.props.style}><Loading /></div>;
     }
 
     return (
-      <div>
+      <div className="child" style={this.props.style}>
+        <h2>Templates</h2>
         <ul>
-        {Object.keys(this.state.templates['new-files-from-user']).map(this.renderListItem)}
+        {Object.keys(this.state.templates).map(this.renderListItem)}
         </ul>
       </div>
     );

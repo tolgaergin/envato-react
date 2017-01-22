@@ -1,27 +1,7 @@
 import React, { Component } from 'react';
+import Envato from '../../envato';
 
 import Loading from '../Loading';
-
-const sampleSales = [
-  {
-    date: '2017-01-18 20:47:17 +1100',
-    order_id: 50077356,
-    type: 'Sale',
-    detail: 'Pleasure - Material Design Responsive Admin Panel (Regular License)',
-    item_id: 10579013,
-    document: 'IVIP15364356',
-    price: 20,
-    eu_vat: null,
-    us_rwt: null,
-    us_bwt: null,
-    amount: 20,
-    site: 'themeforest.net',
-    other_party_country: 'United States',
-    other_party_region: 'California',
-    other_party_city: 'Los Angeles',
-    other_party_zipcode: '90028',
-  },
-];
 
 class Sales extends Component {
   constructor() {
@@ -41,9 +21,23 @@ class Sales extends Component {
   }
 
   loadSales() {
-    this.setState({
-      sales: sampleSales,
-      isLoading: false,
+    const envato = Envato({
+      username: this.props.settings.username,
+      token: this.props.settings.token,
+    });
+
+    envato.authorStatement({
+      type: 'Sale',
+      site: 'themeforest.net',
+    }, (err, data) => {
+      if (err) { return console.log(data); }
+
+      this.props.handlePrevPath(this.props.location.pathname);
+
+      this.setState({
+        sales: data,
+        isLoading: false,
+      });
     });
   }
 
@@ -59,11 +53,11 @@ class Sales extends Component {
   render() {
 
     if (this.state.isLoading) {
-      return <div><Loading /></div>;
+      return <div className="child" style={this.props.style}><Loading /></div>;
     }
 
     return (
-      <div>
+      <div className="child" style={this.props.style}>
         <h2>Sales</h2>
         <ul>
           {Object.keys(this.state.sales).map(this.renderListItem)}

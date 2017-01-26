@@ -1,94 +1,45 @@
 import React, { Component } from 'react';
-import Envato from '../../envato';
+
+import { connect } from 'react-redux';
+import {
+  getUser,
+  getUserAccount,
+  getUserEarnings,
+} from '../../store/Summary/actions';
+import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../Loading';
 
 class Summary extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      isLoading: true,
-      user: {},
-    };
-
-    this.loadData = this.loadData.bind(this);
-  }
 
   componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    const envato = Envato({
-      username: this.props.settings.username,
-      token: this.props.settings.token,
-    });
-
-    const userDetails = new Promise((resolve, reject) => {
-      envato.userDetails({
-        username: this.props.settings.username,
-      }, (err, data) => {
-        if (err) { reject(err); }
-
-        resolve(data.user);
-      });
-    });
-
-    const userAccount = new Promise((resolve, reject) => {
-      envato.userAccount((err, data) => {
-        if (err) { reject(err); }
-
-        resolve(data.account);
-      });
-    });
-
-    const earningSales = new Promise((resolve, reject) => {
-      envato.authorEarningsSales((err, data) => {
-        if (err) { reject(err); }
-
-        resolve(data['earnings-and-sales-by-month']);
-      });
-    });
-
-    Promise.all([userDetails, userAccount, earningSales]).then(values => {
-      const { username, image, followers } = values[0];
-      const { firstname, surname, balance, country } = values[1];
-      const totalEarnings = values[2].map(month =>
-        parseFloat(month.earnings))
-        .reduce((total, monthlyEarnings) => total + monthlyEarnings);
-
-      this.props.handlePrevPath(this.props.location.pathname);
-
-      this.setState({
-        isLoading: false,
-        user: {
-          username,
-          image,
-          followers,
-          firstname,
-          surname,
-          balance,
-          country,
-          totalEarnings,
-        },
-      });
-    });
+    this.props.dispatch(getUser());
+    this.props.dispatch(getUserAccount());
+    this.props.dispatch(getUserEarnings());
+    this.props.dispatch(updatePrevPath(this.props.location.pathname));
   }
 
   render() {
 
-    if (this.state.isLoading) {
-      return <div className="child" style={this.props.style}><Loading /></div>;
+    if (this.props.isFetchingUserEarnings) {
+      return <div className="child"><Loading /></div>;
     }
 
     return (
-      <div className="child" style={this.props.style}>
+      <div className="child">
         <h2>Summary</h2>
-        {this.state.user.totalEarnings}
+        {this.props.userEarnings}
       </div>
     );
   }
 };
 
-export default Summary;
+const mapStateToProps = state => {
+  const { summary } = state;
+  return {
+    isFetchingUserEarnings: summary.isFetchingUserEarnings,
+    userEarnings: summary.userEarnings,
+  };
+};
+
+export default connect(mapStateToProps)(Summary);

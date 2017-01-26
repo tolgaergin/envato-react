@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { Router, Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
 import Summary from './components/Summary/Summary';
@@ -12,15 +13,19 @@ import './index.css';
 
 // import NotFound from './components/NotFound';
 
+import store, { history } from './store/index';
+
 const Root = () => (
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Summary}/>
-      <Route path="/settings" component={Settings}/>
-      <Route path="/sales" component={Sales}/>
-      <Route path="/templates" component={Templates}/>
-    </Route>
-  </Router>
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Summary}/>
+        <Route path="/settings" component={Settings}/>
+        <Route path="/sales" component={Sales}/>
+        <Route path="/templates" component={Templates}/>
+      </Route>
+    </Router>
+  </Provider>
 );
 
 render(

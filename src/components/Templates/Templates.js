@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import Envato from '../../envato';
+
+import { connect } from 'react-redux';
+import { getTemplates } from '../../store/Templates/actions';
+import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../Loading';
 
@@ -7,43 +10,16 @@ class Templates extends Component {
   constructor() {
     super();
 
-    this.state = {
-      templates: {},
-      isLoading: true,
-    };
-
-    this.loadData = this.loadData.bind(this);
     this.renderListItem = this.renderListItem.bind(this);
   }
 
   componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-
-    const envato = Envato({
-      username: this.props.settings.username,
-      token: this.props.settings.token,
-    });
-
-    envato.authorFiles({
-      username: this.props.settings.username,
-      site: 'ThemeForest',
-    }, (err, data) => {
-      if (err) { return console.log('data'); }
-
-      this.props.handlePrevPath(this.props.location.pathname);
-
-      this.setState({
-        templates: data['new-files-from-user'],
-        isLoading: false,
-      });
-    });
+    this.props.dispatch(getTemplates('teamfox'));
+    this.props.dispatch(updatePrevPath(this.props.location.pathname));
   }
 
   renderListItem(key) {
-    const template = this.state.templates[key];
+    const template = this.props.templates.data[key];
     return (
       <li key={key}>
         {template.item}
@@ -53,19 +29,28 @@ class Templates extends Component {
 
   render() {
 
-    if (this.state.isLoading) {
-      return <div className="child" style={this.props.style}><Loading /></div>;
+    const templates = this.props.templates;
+
+    if (templates.isFetching) {
+      return <div className="child"><Loading /></div>;
     }
 
     return (
-      <div className="child" style={this.props.style}>
+      <div className="child">
         <h2>Templates</h2>
         <ul>
-        {Object.keys(this.state.templates).map(this.renderListItem)}
+        {Object.keys(templates.data).map(this.renderListItem)}
         </ul>
       </div>
     );
   }
 }
 
-export default Templates;
+const mapStateToProps = state => {
+  const { templates } = state;
+  return {
+    templates,
+  };
+};
+
+export default connect(mapStateToProps)(Templates);

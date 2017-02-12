@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 
-import App from './components/App';
-import Summary from './components/Summary/Summary';
-import Settings from './components/Settings/Settings';
-import Sales from './components/Sales/Sales';
-import Templates from './components/Templates/Templates';
+import App from './containers/App';
+import Summary from './containers/Summary';
+import Settings from './containers/Settings';
+import Sales from './containers/Sales';
+import Templates from './containers/Templates';
 
 import './index.css';
 

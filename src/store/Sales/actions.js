@@ -20,18 +20,40 @@ const salesRejected = payload => ({
   payload,
 });
 
-export const getSales = () => dispatch => {
-  dispatch(salesPending('loading'));
+const shouldFetchSales = state => {
+  const sales = state.sales;
 
-  envato.authorStatement({
-    type: 'Sale',
-    site: 'themeforest.net',
-  }, (err, result) => {
-    if (err) {
-      dispatch(salesRejected(err));
-    }
+  // if sales array is empty
+  if (sales.data.length === 0) {
+    return true;
+  }
 
-    dispatch(salesFulfilled(result));
+  // if user has a new sale, force to fetch
+  if (sales.shouldFetch) {
+    return true;
+  }
 
-  });
+  // if fetching stop fetching again
+  if (sales.isFetching) {
+    return false;
+  }
+};
+
+export const getSales = () => (dispatch, getState) => {
+
+  if (shouldFetchSales(getState())) {
+    dispatch(salesPending('loading'));
+
+    envato.authorStatement({
+      type: 'Sale',
+      site: 'themeforest.net',
+    }, (err, result) => {
+      if (err) {
+        dispatch(salesRejected(err));
+      }
+
+      dispatch(salesFulfilled(result));
+
+    });
+  }
 };

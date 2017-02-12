@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getTemplates } from '../../store/Templates/actions';
 import { updatePrevPath } from '../../store/Settings/actions';
 
-import Loading from '../Loading';
+import Loading from '../../components/Loading';
 
 class Templates extends Component {
   constructor() {

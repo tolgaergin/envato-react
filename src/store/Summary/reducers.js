@@ -1,11 +1,15 @@
 const initialState = {
+  lastSaleDate: new Date(),
+  shouldFetchUser: true,
+  shouldFetchUserAccount: true,
+  shouldFetchUserEarnings: true,
   isFetchingUser: false,
   isFetchingUserAccount: false,
   isFetchingUserEarnings: false,
   error: null,
   userDetails: [],
   userAccount: [],
-  userEarnings: null,
+  userEarnings: [],
 };
 
 const summary = (state=initialState, action) => {
@@ -15,6 +19,7 @@ const summary = (state=initialState, action) => {
         ...state,
         userDetails: action.payload,
         isFetchingUser: false,
+        shouldFetchUser: false,
       };
     case 'GET_USER_PENDING':
       return {
@@ -33,6 +38,7 @@ const summary = (state=initialState, action) => {
         ...state,
         userAccount: action.payload,
         isFetchingUserAccount: false,
+        shouldFetchUserAccount: false,
       };
     case 'GET_USER_ACCOUNT_PENDING':
       return {
@@ -51,6 +57,7 @@ const summary = (state=initialState, action) => {
         ...state,
         userEarnings: action.payload,
         isFetchingUserEarnings: false,
+        shouldFetchUserEarnings: false,
       };
     case 'GET_USER_EARNINGS_PENDING':
       return {
@@ -62,6 +69,14 @@ const summary = (state=initialState, action) => {
         ...state,
         isFetchingUserEarnings: false,
         error: action.payload,
+      };
+    case 'SHOULD_FETCH_SUMMARY':
+      return {
+        ...state,
+        lastSaleDate: new Date(),
+        shouldFetchUser: true,
+        shouldFetchUserAccount: true,
+        shouldFetchUserEarnings: true,
       };
     default:
       return state;

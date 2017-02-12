@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateSettings, updatePrevPath } from '../../store/Settings/actions';
 
-import CheckboxButton from '../Form/CheckboxButton';
-import InputField from '../Form/InputField';
+import CheckboxButton from '../../components/Form/CheckboxButton';
+import InputField from '../../components/Form/InputField';
 
 class Settings extends Component {
   constructor() {

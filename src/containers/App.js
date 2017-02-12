@@ -1,11 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { checkBalance } from '../store/Summary/actions';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Howl } from 'howler';
 
-import Header from './Header';
+import Header from '../components/Header';
 
 class App extends Component {
+
+  componentDidMount() {
+    // Check balance every 60 seconds
+    setInterval(function () {
+      this.props.dispatch(checkBalance());
+    }.bind(this), 60000);
+  }
+
+  componentDidUpdate(prevProps) {
+
+    const sound = new Howl({
+      src: ['../assets/sound/cha-ching.wav'],
+    });
+
+    if (prevProps.lastSaleDate < this.props.lastSaleDate) {
+      sound.play();
+    }
+  }
 
   render() {
     const navs = ['/', '/sales', '/templates', '/settings'];
@@ -30,9 +50,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { settings } = state;
+  const { settings, summary } = state;
   return {
     prevPath: settings.prevPath,
+    lastSaleDate: summary.lastSaleDate,
   };
 };
 

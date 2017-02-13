@@ -1,8 +1,8 @@
 import React from 'react';
 
-const InputField = ({ name, labelText, value, onBlur }) => (
+const InputField = ({ labelText, name, onBlur, value }) => (
   <label>
-    {labelText + ' '} 
+    {labelText + ' '}
     <input
     type="text"
     name={name}
@@ -10,5 +10,12 @@ const InputField = ({ name, labelText, value, onBlur }) => (
     onBlur={onBlur} />
   </label>
 );
+
+InputField.propTypes = {
+  labelText: React.PropTypes.string,
+  name: React.PropTypes.string,
+  onBlur: React.PropTypes.func,
+  value: React.PropTypes.string,
+};
 
 export default InputField;

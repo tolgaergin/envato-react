@@ -9,4 +9,11 @@ const CheckboxButton = ({ name, labelText, checked, onChange }) => (
   </label>
 );
 
+CheckboxButton.propTypes = {
+  checked: React.PropTypes.bool.isRequired,
+  labelText: React.PropTypes.string,
+  name: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+};
+
 export default CheckboxButton;

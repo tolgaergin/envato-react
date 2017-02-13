@@ -9,6 +9,9 @@ import {
 import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../../components/Loading';
+import CurrentBalance from '../../components/Summary/CurrentBalance';
+import MonthlyChart from '../../components/Summary/MonthlyChart';
+import InfoBoxes from '../../components/Summary/InfoBoxes';
 
 class Summary extends Component {
 
@@ -20,25 +23,36 @@ class Summary extends Component {
   }
 
   render() {
+    const {
+      isFetchingUser,
+      isFetchingUserAccount,
+      isFetchingUserEarnings,
+      userEarnings,
+      currentBalance,
+      totalSales,
+      followers,
+    } = this.props;
 
-    if (this.props.isFetchingUserEarnings) {
-      return <div className="child"><Loading /></div>;
+    if (isFetchingUserEarnings || isFetchingUser || isFetchingUserAccount) {
+      return <Loading />;
     }
 
     let totalEarnings;
 
-    if (this.props.userEarnings.length > 0) {
-      totalEarnings = this.props.userEarnings.map(month =>
+    if (userEarnings.length > 0) {
+      totalEarnings = userEarnings.map(month =>
         parseFloat(month.earnings))
         .reduce((total, monthlyEarnings) => total + monthlyEarnings);
     }
 
     return (
       <div className="child">
-        <h2>Summary</h2>
-        Total earnings: {totalEarnings} <br />
-        Followers: {this.props.totalFollowers} <br />
-        Current Balance: {this.props.currentBalance} <br />
+        <CurrentBalance currentBalance={currentBalance} />
+        <MonthlyChart userEarnings={userEarnings} />
+        <InfoBoxes
+          totalEarnings={totalEarnings}
+          totalSales={totalSales}
+          followers={followers} />
       </div>
     );
   }
@@ -47,11 +61,14 @@ class Summary extends Component {
 const mapStateToProps = state => {
   const { summary } = state;
   return {
+    isFetchingUser: summary.isFetchingUser,
+    isFetchingUserAccount: summary.isFetchingUserAccount,
     isFetchingUserEarnings: summary.isFetchingUserEarnings,
+
+    currentBalance: summary.userAccount.available_earnings,
     userEarnings: summary.userEarnings,
     totalSales: summary.userDetails.sales,
-    totalFollowers: summary.userDetails.followers,
-    currentBalance: summary.userAccount.available_earnings,
+    followers: summary.userDetails.followers,
   };
 };
 

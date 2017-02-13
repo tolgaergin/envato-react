@@ -6,4 +6,9 @@ const SalesItem = ({ item, index }) => (
   </li>
 );
 
+SalesItem.propTypes = {
+  item: React.PropTypes.object,
+  index: React.PropTypes.string,
+};
+
 export default SalesItem;

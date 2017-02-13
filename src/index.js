@@ -11,8 +11,6 @@ import Templates from './containers/Templates';
 
 import './index.css';
 
-// import NotFound from './components/NotFound';
-
 import store, { history } from './store/index';
 
 const Root = () => (

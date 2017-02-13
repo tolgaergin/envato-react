@@ -25,7 +25,7 @@ class EnvatoApi {
       headers: { Authorization: 'Bearer ' + this.token },
     })
     .then(result => callback(null, result.data))
-    .catch(err => callback(err.response.data));
+    .catch(err => callback(err));
   }
 
   totalItems(callback) {

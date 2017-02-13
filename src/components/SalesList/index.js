@@ -21,4 +21,9 @@ const SalesList = ({ sales, isFetching }) => (
   )
 );
 
+SalesList.propTypes = {
+  sales: React.PropTypes.array,
+  isFetching: React.PropTypes.bool,
+};
+
 export default SalesList;

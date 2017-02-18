@@ -11,9 +11,9 @@ class App extends Component {
 
   componentDidMount() {
     // Check balance every 60 seconds
-    setInterval(function () {
-      this.props.dispatch(checkBalance());
-    }.bind(this), 60000);
+    // setInterval(function () {
+    //   this.props.dispatch(checkBalance());
+    // }.bind(this), 60000);
   }
 
   componentDidUpdate(prevProps) {

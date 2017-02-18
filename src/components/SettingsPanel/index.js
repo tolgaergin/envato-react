@@ -1,58 +1,58 @@
 import React from 'react';
 
-import CheckboxButton from '../Form/CheckboxButton';
-import InputField from '../Form/InputField';
+import Switcher from '../Switcher';
+import TextInput from '../TextInput';
 
 const SettingsPanel = ({ handleClick, settings }) => (
   <div className="child">
     <h2>Settings</h2>
     <ul>
       <li>
-        <InputField
+        <TextInput
           labelText="Username"
           name="username"
           value={settings.username}
           onBlur={handleClick} />
       </li>
       <li>
-        <InputField
+        <TextInput
           labelText="Token"
           name="token"
           value={settings.token}
           onBlur={handleClick} />
       </li>
       <li>
-        <CheckboxButton
+        Sound
+        <Switcher
           name="sound"
-          labelText="Sound"
           checked={settings.sound}
           onChange={handleClick} />
       </li>
       <li>
-        <CheckboxButton
+        Notification
+        <Switcher
           name="notification"
-          labelText="Notification"
           checked={settings.notification}
           onChange={handleClick} />
       </li>
       <li>
-        <CheckboxButton
+        Dock Icon
+        <Switcher
           name="dockIcon"
-          labelText="Dock Icon"
           checked={settings.dockIcon}
           onChange={handleClick} />
       </li>
       <li>
-        <CheckboxButton
+        Launch at Startup
+        <Switcher
           name="startup"
-          labelText="Launch at Startup"
           checked={settings.startup}
           onChange={handleClick} />
       </li>
       <li>
-        <CheckboxButton
+        Remind withdraw
+        <Switcher
           name="remind"
-          labelText="Remind withdraw"
           checked={settings.remind}
           onChange={handleClick} />
       </li>

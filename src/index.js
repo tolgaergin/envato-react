@@ -9,6 +9,21 @@ import Settings from './containers/Settings';
 import Sales from './containers/Sales';
 import Templates from './containers/Templates';
 
+import { injectGlobal } from 'styled-components';
+
+injectGlobal `
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+`;
 import './index.css';
 
 import store, { history } from './store/index';

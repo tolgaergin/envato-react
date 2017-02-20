@@ -1,9 +1,3 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-
 .transition-wrapper {
   position: relative;
 }
@@ -11,14 +5,16 @@ body {
 .child {
   position: absolute;
   width: 100%;
-  min-height: 100vh;
-  background-color: rgba(204, 204, 204, 0.32);
+  height: calc(100% - 76px);
+  background-color: #fbfbfb;
+  overflow: hidden;
+  overflow-y: auto;
   will-change: transform;
+  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .fromRightToLeft-enter {
   transform: translateX(100%);
-  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .fromRightToLeft-enter.fromRightToLeft-enter-active {
@@ -27,7 +23,6 @@ body {
 
 .fromRightToLeft-leave {
   transform: translateX(0%);
-  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .fromRightToLeft-leave.fromRightToLeft-leave-active {
@@ -36,7 +31,6 @@ body {
 
 .fromLeftToRight-enter {
   transform: translateX(-100%);
-  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .fromLeftToRight-enter.fromLeftToRight-enter-active {
@@ -45,7 +39,6 @@ body {
 
 .fromLeftToRight-leave {
   transform: translateX(0%);
-  transition: transform .3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .fromLeftToRight-leave.fromLeftToRight-leave-active {

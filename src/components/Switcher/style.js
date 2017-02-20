@@ -1,19 +1,23 @@
 import styled from 'styled-components';
 
 const theme = {
-  rowWidth: '50',
-  rowHeight: '16',
+  rowWidth: '52',
+  rowHeight: '32',
   rowBgColor: 'rgba(0, 0, 0, 0.2)',
+  rowRadius: '20',
 
-  thumbWidth: '24',
-  thumbHeight: '24',
-  thumbBgColor: '#fafafa',
-  thumbBoxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+  thumbWidth: '26',
+  thumbHeight: '26',
+  thumbLeftSpace: '3',
+  thumbRightSpace: '3',
+  thumbBgColor: '#fff',
+  thumbBoxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)',
   pressedThumbBoxShadow: '0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 20px rgba(128, 128, 128, 0.1)',
 
-  activeRowBgColor: 'rgba(0, 0, 255, 0.5)',
-  activeThumbBgColor: 'blue',
-  activePressedThumbBoxShadow: '0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 20px rgba(0, 0, 255, 0.2)',
+  activeRowBgColor: '#37C34A',
+  activeThumbBgColor: '#fff',
+  activeThumbBoxShadow: '0 3px 2px rgba(0, 0, 0, 0.05)',
+  activePressedThumbBoxShadow: '0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 20px rgba(55, 195, 74, 0.2)',
 };
 
 export const StyledSwitch = styled.div `
@@ -21,8 +25,8 @@ export const StyledSwitch = styled.div `
   position: relative;
   width: ${theme.rowWidth}px;
   height: ${theme.rowHeight}px;
-  margin: 5px 0 15px;
-  border-radius: 10px;
+  margin: 0;
+  border-radius: ${theme.rowRadius}px;
   background-color: ${theme.rowBgColor};
   transition: background-color 280ms ease-out;
   cursor: pointer;
@@ -31,7 +35,7 @@ export const StyledSwitch = styled.div `
     content: '';
     position: absolute;
     top: ${(theme.rowHeight - theme.thumbHeight) / 2}px;
-    left: 0;
+    left: ${theme.thumbLeftSpace}px;
     width: ${theme.thumbWidth}px;
     height: ${theme.thumbHeight}px;
     background: ${theme.thumbBgColor};
@@ -54,8 +58,9 @@ export const StyledInput = styled.input `
     background: ${theme.activeRowBgColor};
 
     &::before {
-      left: ${theme.rowWidth - theme.thumbWidth}px;
+      left: ${theme.rowWidth - theme.thumbWidth - theme.thumbRightSpace}px;
       background: ${theme.activeThumbBgColor};
+      box-shadow: ${theme.activeThumbBoxShadow};
     }
 
     &:active {

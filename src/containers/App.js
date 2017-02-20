@@ -7,6 +7,26 @@ import { Howl } from 'howler';
 
 import Header from '../components/Header';
 
+import styled from 'styled-components';
+
+const StyledContainer = styled.div `
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const StyledCenter = styled.div `
+  position: relative;
+  width: 375px;
+  height: 600px;
+  overflow: hidden;
+  background-color: #fbfbfb;
+  border: 1px solid rgba(204, 204, 204, 0.3);
+  border-radius: 4px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.03);
+`;
+
 class App extends Component {
 
   componentDidMount() {
@@ -33,19 +53,21 @@ class App extends Component {
     const prevRoute = navs.indexOf(this.props.prevPath);
 
     return (
-      <div>
-        <Header />
-        <ReactCSSTransitionGroup
-          component="div"
-          transitionName={ (newRoute > prevRoute) ? 'fromRightToLeft' : 'fromLeftToRight' }
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}>
-        {React.cloneElement(this.props.children, {
-          key: this.props.location.pathname,
-        })}
-        </ReactCSSTransitionGroup>
-      </div>
-    );
+      <StyledContainer>
+        <StyledCenter>
+          <Header />
+          <ReactCSSTransitionGroup
+            component="div"
+            transitionName={ (newRoute > prevRoute) ? 'fromRightToLeft' : 'fromLeftToRight' }
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={300}>
+            {React.cloneElement(this.props.children, {
+              key: this.props.location.pathname,
+            })}
+          </ReactCSSTransitionGroup>
+        </StyledCenter>
+      </StyledContainer>
+      );
   }
 }
 

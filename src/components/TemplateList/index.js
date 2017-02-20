@@ -5,18 +5,15 @@ import TemplateItem from './TemplateItem';
 const TemplateList = ({ templates, isFetching }) => (
   isFetching ? <Loading /> : (
     <div className="child">
-      <h2>Templates</h2>
-      <ul>
-        {
-          Object.keys(templates).map(key =>
-            <TemplateItem
-              key={key}
-              index={key}
-              item={templates[key]}
-            />
-          )
-        }
-      </ul>
+      {
+        Object.keys(templates).map(key =>
+          <TemplateItem
+            key={key}
+            index={key}
+            item={templates[key]}
+          />
+        )
+      }
     </div>
   )
 );

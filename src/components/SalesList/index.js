@@ -5,7 +5,6 @@ import SalesItem from './SalesItem';
 const SalesList = ({ sales, isFetching }) => (
   isFetching ? <Loading /> : (
     <div className="child">
-      <h2>Sales</h2>
       <ul>
         {
           Object.keys(sales).map(key =>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledInput, StyledSwitch } from './style';
 
-const Switcher = ({ name, checked, onChange }) => (
+const Switcher = ({ checked, name, onChange }) => (
   <label>
     <StyledInput
       type="checkbox"

@@ -25,8 +25,10 @@ const width = fullWidth - margin.left - margin.right;
 const height = fullHeight - margin.top - margin.bottom;
 
 // parse the month / time
+// props   "Sun Mar 01 00:00:00 +1100 2015"
+// after d3 Tue May 31 2016 15:00:00 GMT+0100 (BST)
 const parseTime = d3.timeParse('%a %b %d %H:%M:%S %Z %Y');
-const bisectDate = d3.bisector(function (d) { return d.month; }).left;
+const bisectDate = d3.bisector(function (d) { return d.stringMonth; }).left;
 const formatValue = d3.format(',.0f');
 const formatCurrency = function (d) { return '$' + formatValue(d); };
 
@@ -36,34 +38,33 @@ const setY = d3.scaleLinear().range([height, 0]);
 
 // define the area
 const generateArea = d3.area()
-  .x(function (d) { return setX(d.month); })
+  .x(function (d) { return setX(d.stringMonth); })
   .y0(height)
   .y1(function (d) { return setY(d.earnings); })
   .curve(d3.curveCatmullRom);
 
 // define the line
 const generateLine = d3.line()
-  .x(function (d) { return setX(d.month); })
+  .x(function (d) { return setX(d.stringMonth); })
   .y(function (d) { return setY(d.earnings); })
   .curve(d3.curveCatmullRom);
 
 // style
 const StyledPathArea = styled.path `
-  fill: lightsteelblue;
   shape-rendering: crispEdges;
 `;
 
 const StyledPathLine = styled.path `
   fill: none;
-  stroke: steelblue;
+  stroke: #51fd6a;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 `;
 
 const StyledGrid = styled.line `
-  stroke: lightgray;
+  stroke: rgba(127, 127, 127, 0.2);
   stroke-width: 1;
-  stroke-dasharray: 2,3;
+  stroke-dasharray: 1,1;
 `;
 
 const StyledTooltipRect = styled.rect `
@@ -79,7 +80,7 @@ const StyledChartTooltip = styled.div `
   position: absolute;
   text-align: center;
   padding: 2px 3px;
-  background-color: green;
+  background-color: #2dc543;
   color: #fff;
   border-radius: 4px;
   opacity: 0;
@@ -89,8 +90,8 @@ const StyledChartTooltip = styled.div `
 
 const RelativeDiv = styled.div `
   position: relative;
-  width: ${props => props.width ? props.width : 'auto'};
-  height: ${props => props.height ? props.height : 'auto'};
+  width: ${props => props.width ? props.width + 'px' : 'auto'};
+  height: ${props => props.height ? props.height + 'px' : 'auto'};
 `;
 
 class ChartArea extends React.Component {
@@ -98,7 +99,8 @@ class ChartArea extends React.Component {
     return (
       <StyledPathArea
         d={this.props.area}
-        clipPath={`url(#${this.props.clipPath})`} />
+        clipPath={`url(#${this.props.clipPath})`}
+        fill={`url(#${this.props.gradient})`} />
     );
   }
 }
@@ -113,16 +115,23 @@ class ChartLine extends React.Component {
   }
 }
 
+const StyledCircle = styled.circle `
+  stroke: #37C34A;
+  stroke-linecap: round;
+  stroke-width: 1;
+  fill: white;
+`;
+
 class ChartDots extends React.Component {
   render() {
     const circles = this.props.circles;
     return (
       <g>
         {circles.map((circle, i) =>
-          <circle
+          <StyledCircle
             key={i}
             r="2"
-            cx={setX(circle.month)}
+            cx={setX(circle.stringMonth)}
             cy={setY(circle.earnings)}
             clipPath={`url(#${this.props.clipPath})`} />
         )}
@@ -139,8 +148,8 @@ class ChartVerticalGrids extends React.Component {
         {grids.map((grid, i) =>
           <StyledGrid
             key={i}
-            x1={setX(grid.month)}
-            x2={setX(grid.month)}
+            x1={setX(grid.stringMonth)}
+            x2={setX(grid.stringMonth)}
             y1={-margin.top}
             y2={setY(grid.earnings) - 2}
             clipPath={`url(#${this.props.clipPath})`} />
@@ -150,25 +159,34 @@ class ChartVerticalGrids extends React.Component {
   }
 }
 
+const StyledText = styled.text `
+  font-size: 12px;
+  fill: rgba(0, 0, 0, 0.2);
+`;
+
 class ChartVerticalGridTexts extends React.Component {
   render() {
     const texts = this.props.texts;
     return (
       <g>
         {texts.map((text, i) =>
-          <text
+          <StyledText
             key={i}
             x={-margin.top + 5}
-            y={-setX(text.month)}
+            y={-setX(text.stringMonth)}
             transform="rotate(90)"
-            dy="15">
-            {moment(text.month).format('MMM YY')}'
-          </text>
+            dy="20">
+            {moment(text.stringMonth).format('MMM YY')}'
+          </StyledText>
         )}
       </g>
     );
   }
 }
+
+const StyledFocus = styled.g `
+  display: none;
+`;
 
 class MonthlyChart extends React.Component {
 
@@ -186,21 +204,16 @@ class MonthlyChart extends React.Component {
 
   componentDidMount() {
     const userEarnings = this.props.userEarnings;
-    let data = userEarnings.slice(userEarnings.length - 9, userEarnings.length);
+    const data = userEarnings.slice(userEarnings.length - 9, userEarnings.length);
 
     // format the data
-    data.forEach(function (d) {
-      d.month = parseTime(d.month);
+    data.map(d => {
+      d.stringMonth = parseTime(d.month);
       d.earnings = +d.earnings;
     });
 
     // sort the data
-    data.sort(function (a, b) { return a.month - b.month; });
-
-    // scale the range of the data
-    setX.domain(d3.extent(data, function (d) { return d.month; }));
-
-    setY.domain([0, d3.max(data, function (d) { return d.earnings; })]);
+    data.sort(function (a, b) { return a.stringMonth - b.stringMonth; });
 
     this.setState({
       data,
@@ -213,13 +226,17 @@ class MonthlyChart extends React.Component {
         .attr('width', fullWidth);
   }
 
+  componentWillUnmount() {
+    d3.select(this.rect).on('mousemove', null);
+  }
+
   mouseOut() {
-    d3.select(this.refs.focus).style('display', 'none');
+    d3.select(this.focus).style('display', 'none');
     d3.select(this.tooltip).style('opacity', 0);
   }
 
   mouseOver() {
-    d3.select(this.refs.focus).style('display', null);
+    d3.select(this.focus).style('display', null);
     d3.select(this.tooltip).style('opacity', 0);
   }
 
@@ -230,14 +247,14 @@ class MonthlyChart extends React.Component {
     const i = bisectDate(data, x0, 1);
     const d0 = data[i - 1];
     const d1 = data[i];
-    const d = x0 - d0.month > d1.month - x0 ? d1 : d0;
-    const focus = d3.select(this.refs.focus);
+    const d = x0 - d0.stringMonth > d1.stringMonth - x0 ? d1 : d0;
+    const focus = d3.select(this.focus);
     const tooltip = d3.select(this.tooltip);
 
     if (i < (data.length - 1) / 2) {
-      tooltip.style('left', (parseFloat(setX(d.month)).toFixed(2) + 11) + 'px');
+      tooltip.style('left', (parseFloat(setX(d.stringMonth)).toFixed(2) + 11) + 'px');
     } else {
-      tooltip.style('left', (parseFloat(setX(d.month)).toFixed(2) - 36) + 'px');
+      tooltip.style('left', (parseFloat(setX(d.stringMonth)).toFixed(2) - 36) + 'px');
     }
 
     tooltip
@@ -245,27 +262,38 @@ class MonthlyChart extends React.Component {
       .style('top', (setY(d.earnings) + margin.top - 15) + 'px')
       .style('opacity', 1);
 
-    focus.attr('transform', 'translate(' + setX(d.month) + ',' + setY(d.earnings) + ')');
+    focus.attr('transform', 'translate(' + setX(d.stringMonth) + ',' + setY(d.earnings) + ')');
+    focus.style('display', 'block');
   }
 
   render() {
     const data = this.state.data;
 
+    // scale the range of the data
+    setX.domain(d3.extent(data, function (d) { return d.stringMonth; }));
+
+    setY.domain([0, d3.max(data, function (d) { return d.earnings; })]);
+
     return (
       <div>
-        <h2>Monthly Chart</h2>
         <RelativeDiv width={fullWidth} height={fullHeight}>
           <StyledChartTooltip innerRef={comp => this.tooltip = comp} />
           <svg width={fullWidth} height={fullHeight}>
+            <defs>
+              <linearGradient id="gradient" x1="0" x2="0" y1="1" y2="0">
+                <stop offset="0%" stopColor="rgba(103, 253, 81, 0.3)" />
+                <stop offset="100%" stopColor="rgba(103, 253, 81, 0.7)" />
+              </linearGradient>
+            </defs>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              <ChartArea area={generateArea(data)} clipPath="clipPath" />
+              <ChartArea area={generateArea(data)} clipPath="clipPath" gradient="gradient" />
               <ChartLine line={generateLine(data)} clipPath="clipPath" />
               <ChartDots circles={data} clipPath="clipPath" />
               <ChartVerticalGrids grids={data} clipPath="clipPath" />
               <ChartVerticalGridTexts texts={data} />
-              <g className="focus" ref="focus">
-                <circle r="5" fill="green"></circle>
-              </g>
+              <StyledFocus innerRef={comp => this.focus = comp}>
+                <circle r="5" fill="#2dc543"></circle>
+              </StyledFocus>
               <StyledTooltipRect
                 width={fullWidth}
                 height={height}

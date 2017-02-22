@@ -1,0 +1,28 @@
+exports[`SalesList renders and matches snapshot 1`] = `
+<div
+  className="child">
+  <ul>
+    <li
+      className="gSsLRZ">
+      <span
+        className="gdEpjv">
+        Pleasure Template
+      </span>
+      <span
+        className="jZQKrC">
+         • 
+        7 days ago
+      </span>
+      <span
+        className="kqPhYY">
+        <sup>
+          $
+        </sup>
+        20
+      </span>
+      <div
+        className="krlaZP" />
+    </li>
+  </ul>
+</div>
+`;

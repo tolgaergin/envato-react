@@ -1,0 +1,12 @@
+exports[`Switcher renders and matches snapshot 1`] = `
+<label>
+  <input
+    checked={true}
+    className="cQZeVv"
+    name="switcher"
+    onChange={[Function]}
+    type="checkbox" />
+  <div
+    className="iVGvmF" />
+</label>
+`;

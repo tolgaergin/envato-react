@@ -1,73 +1,69 @@
-import Envato from '../../envato';
-
-const envato = Envato({
-  username: 'teamfox',
-  token: '7S3QE0NGJUr9MwJaLLo0usgjSrS85yLm',
-});
+import * as types from '../../constants/action-types';
+import envato from '../../constants/api';
 
 // User Information
 
 const userFulfilled = payload => ({
-  type: 'GET_USER_FULFILLED',
+  type: types.GET_USER_FULFILLED,
   payload,
 });
 
 const userPending = payload => ({
-  type: 'GET_USER_PENDING',
+  type: types.GET_USER_PENDING,
   payload,
 });
 
 const userRejected = payload => ({
-  type: 'GET_USER_REJECTED',
+  type: types.GET_USER_REJECTED,
   payload,
 });
 
 // Handle Should Fetch
 const shouldFetchSummary = payload => ({
-  type: 'SHOULD_FETCH_SUMMARY',
+  type: types.SHOULD_FETCH_SUMMARY,
   payload,
 });
 
 const shouldFetchSales = payload => ({
-  type: 'SHOULD_FETCH_SALES',
+  type: types.SHOULD_FETCH_SALES,
   payload,
 });
 
 const shouldFetchTemplates = payload => ({
-  type: 'SHOULD_FETCH_TEMPLATES',
+  type: types.SHOULD_FETCH_TEMPLATES,
   payload,
 });
 
 // User Account
 
 const userAccountFulfilled = payload => ({
-  type: 'GET_USER_ACCOUNT_FULFILLED',
+  type: types.GET_USER_ACCOUNT_FULFILLED,
   payload,
 });
 
 const userAccountPending = payload => ({
-  type: 'GET_USER_ACCOUNT_PENDING',
+  type: types.GET_USER_ACCOUNT_PENDING,
   payload,
 });
 
 const userAccountRejected = payload => ({
-  type: 'GET_USER_ACCOUNT_REJECTED',
+  type: types.GET_USER_ACCOUNT_REJECTED,
   payload,
 });
 
 // Earnings
 const userEarningsFulfilled = payload => ({
-  type: 'GET_USER_EARNINGS_FULFILLED',
+  type: types.GET_USER_EARNINGS_FULFILLED,
   payload,
 });
 
 const userEarningsPending = payload => ({
-  type: 'GET_USER_EARNINGS_PENDING',
+  type: types.GET_USER_EARNINGS_PENDING,
   payload,
 });
 
 const userEarningsRejected = payload => ({
-  type: 'GET_USER_EARNINGS_REJECTED',
+  type: types.GET_USER_EARNINGS_REJECTED,
   payload,
 });
 
@@ -133,7 +129,7 @@ export const getUser = (username) => (dispatch, getState) => {
   if (shouldFetchUser(getState())) {
     dispatch(userPending('loading'));
 
-    envato.userDetails({
+    return envato.userDetails({
       username,
     }, (err, result) => {
       if (err) {
@@ -151,7 +147,7 @@ export const getUserAccount = () => (dispatch, getState) => {
   if (shouldFetchUserAccount(getState())) {
     dispatch(userAccountPending('loading'));
 
-    envato.userAccount((err, result) => {
+    return envato.userAccount((err, result) => {
       if (err) {
         dispatch(userAccountRejected(err));
       }
@@ -163,7 +159,7 @@ export const getUserAccount = () => (dispatch, getState) => {
 
 export const checkBalance = () => (dispatch, getState) => {
 
-  envato.userAccount((err, result) => {
+  return envato.userAccount((err, result) => {
     if (err) {
       dispatch(userAccountRejected(err));
     }
@@ -187,7 +183,7 @@ export const getUserEarnings = () => (dispatch, getState) => {
   if (shouldFetchUserEarnings(getState())) {
     dispatch(userEarningsPending('loading'));
 
-    envato.authorEarningsSales((err, result) => {
+    return envato.authorEarningsSales((err, result) => {
       if (err) {
         dispatch(userEarningsRejected(err));
       }

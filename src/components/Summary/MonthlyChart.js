@@ -207,7 +207,7 @@ class MonthlyChart extends React.Component {
     const data = userEarnings.slice(userEarnings.length - 9, userEarnings.length);
 
     // format the data
-    data.map(d => {
+    data.forEach(function (d) {
       d.stringMonth = parseTime(d.month);
       d.earnings = +d.earnings;
     });

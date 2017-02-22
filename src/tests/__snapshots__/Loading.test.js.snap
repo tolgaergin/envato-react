@@ -1,0 +1,18 @@
+exports[`Loading renders and matches snapshot 1`] = `
+<div
+  className="child">
+  <div
+    className="ivhEYB">
+    Loading
+    <div
+      className="cYmFlc">
+      <div
+        className="cbekqL" />
+      <div
+        className="cbekqL" />
+      <div
+        className="cbekqL" />
+    </div>
+  </div>
+</div>
+`;

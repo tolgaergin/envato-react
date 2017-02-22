@@ -1,22 +1,18 @@
-import Envato from '../../envato';
-
-const envato = Envato({
-  username: 'teamfox',
-  token: '7S3QE0NGJUr9MwJaLLo0usgjSrS85yLm',
-});
+import * as types from '../../constants/action-types';
+import envato from '../../constants/api';
 
 const templateFulfilled = payload => ({
-  type: 'GET_TEMPLATE_FULFILLED',
+  type: types.GET_TEMPLATE_FULFILLED,
   payload,
 });
 
 const templatePending = payload => ({
-  type: 'GET_TEMPLATE_PENDING',
+  type: types.GET_TEMPLATE_PENDING,
   payload,
 });
 
 const templateRejected = payload => ({
-  type: 'GET_TEMPLATE_REJECTED',
+  type: types.GET_TEMPLATE_REJECTED,
   payload,
 });
 
@@ -42,7 +38,7 @@ const shouldFetchTemplates = state => {
 export const getTemplates = (username) => (dispatch, getState) => {
   if (shouldFetchTemplates(getState())) {
     dispatch(templatePending(username));
-    envato.authorFiles({
+    return envato.authorFiles({
       username,
       site: 'ThemeForest',
     }, (err, result) => {

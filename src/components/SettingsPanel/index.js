@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Switcher from '../Switcher';
-import TextInput from '../TextInput';
+
+//import TextInput from '../TextInput';
 
 import styled from 'styled-components';
 

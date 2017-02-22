@@ -1,3 +1,5 @@
+import * as types from '../../constants/action-types';
+
 const initialState = {
   prevPath: '/',
   settings: {
@@ -13,14 +15,14 @@ const initialState = {
 
 const settings = (state=initialState, action) => {
   switch (action.type) {
-    case 'SETTINGS_UPDATE':
+    case types.SETTINGS_UPDATE:
       const currentSettings = { ...state.settings };
       currentSettings[action.settingsName] = action.settingsValue;
       return {
         ...state,
         settings: currentSettings,
       };
-    case 'PREVPATH_UPDATE':
+    case types.PREVPATH_UPDATE:
       return {
         ...state,
         prevPath: action.prevPath,

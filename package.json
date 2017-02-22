@@ -4,8 +4,13 @@
   "private": true,
   "devDependencies": {
     "axios": "^0.15.3",
+    "enzyme": "^2.7.1",
+    "nock": "^9.0.6",
     "querystring": "^0.2.0",
-    "react-scripts": "0.8.5"
+    "react-addons-test-utils": "^15.4.2",
+    "react-scripts": "0.8.5",
+    "react-test-renderer": "^15.4.2",
+    "redux-mock-store": "^1.2.2"
   },
   "dependencies": {
     "d3": "^4.5.0",

@@ -1,27 +1,9 @@
 import React from 'react';
 
+// import TextInput from '../TextInput';
 import Switcher from '../Switcher';
 
-//import TextInput from '../TextInput';
-
-import styled from 'styled-components';
-
-const SettingsList = styled.ul `
-  margin: 20px 0;
-`;
-
-const ListItem = styled.li `
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background-color: #fff;
-  border-top: 1px solid rgba(205, 206, 210, 0.5);
-
-  &:last-of-type {
-    border-bottom: 1px solid rgba(205, 206, 210, 0.5);
-  }
-`;
+import { SettingsList, ListItem } from './style';
 
 const SettingsPanel = ({ handleClick, settings }) => (
   <div className="child">

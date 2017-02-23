@@ -2,14 +2,24 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import thunk from 'redux-thunk';
-
 import reducers from './reducers';
+
+// for deploying
+// import { createHistory, useBasename } from 'history';
+// let browserHistory = useBasename(createHistory)({
+//   basename: '/testing/envado',
+// });
+// export const history = syncHistoryWithStore(browserHistory, store);
 
 const enhancers = compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 );
 
-const middleWare = applyMiddleware(thunk);
+// it passes extra argument to actions
+// api = 'http://example.com/api'
+const api = '';
+
+const middleWare = applyMiddleware(thunk.withExtraArgument(api));
 
 const store = createStore(reducers, enhancers, middleWare);
 

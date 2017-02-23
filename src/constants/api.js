@@ -1,4 +1,4 @@
-import Envato from '../envato';
+import Envato from 'node-envato/index-es5';
 
 const envato = Envato({
   username: 'teamfox',

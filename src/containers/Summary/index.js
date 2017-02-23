@@ -9,9 +9,9 @@ import {
 import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../../components/Loading';
-import CurrentBalance from '../../components/Summary/CurrentBalance';
-import MonthlyChart from '../../components/Summary/MonthlyChart';
-import InfoBoxes from '../../components/Summary/InfoBoxes';
+import CurrentBalance from '../../components/CurrentBalance';
+import MonthlyChart from '../Chart';
+import InfoBoxes from '../../components/InfoBoxes';
 
 class Summary extends Component {
 

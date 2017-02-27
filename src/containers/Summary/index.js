@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import {
-  getUser,
-  getUserAccount,
-  getUserEarnings,
-} from '../../store/Summary/actions';
+import { getUser, hideNewFollowersBadge, hideNewSalesBadge } from '../../store/Summary/actions';
 import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../../components/Loading';
@@ -16,10 +12,19 @@ import InfoBoxes from '../../components/InfoBoxes';
 class Summary extends Component {
 
   componentDidMount() {
-    this.props.dispatch(getUser('teamfox'));
-    this.props.dispatch(getUserAccount());
-    this.props.dispatch(getUserEarnings());
+    this.props.dispatch(getUser());
     this.props.dispatch(updatePrevPath(this.props.location.pathname));
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(hideNewFollowersBadge(this.props.followers));
+    this.props.dispatch(hideNewSalesBadge(this.props.sales));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.shouldFetchUser !== nextProps.shouldFetchUser) {
+      this.props.dispatch(getUser());
+    }
   }
 
   render() {
@@ -29,8 +34,10 @@ class Summary extends Component {
       isFetchingUserEarnings,
       userEarnings,
       currentBalance,
-      totalSales,
+      sales,
       followers,
+      previousFollowers,
+      previousSales,
     } = this.props;
 
     if (isFetchingUserEarnings || isFetchingUser || isFetchingUserAccount) {
@@ -51,8 +58,10 @@ class Summary extends Component {
         <MonthlyChart userEarnings={userEarnings} />
         <InfoBoxes
           totalEarnings={totalEarnings}
-          totalSales={totalSales}
-          followers={followers} />
+          sales={sales}
+          followers={followers}
+          previousSales={previousSales}
+          previousFollowers={previousFollowers} />
       </div>
     );
   }
@@ -65,10 +74,14 @@ const mapStateToProps = state => {
     isFetchingUserAccount: summary.isFetchingUserAccount,
     isFetchingUserEarnings: summary.isFetchingUserEarnings,
 
+    shouldFetchUser: summary.shouldFetchUser,
+
     currentBalance: summary.userAccount.available_earnings,
     userEarnings: summary.userEarnings,
-    totalSales: summary.userDetails.sales,
+    sales: summary.userDetails.sales,
+    previousSales: summary.userDetails.previousSales,
     followers: summary.userDetails.followers,
+    previousFollowers: summary.userDetails.previousFollowers,
   };
 };
 

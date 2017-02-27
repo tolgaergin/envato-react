@@ -1,5 +1,6 @@
 import * as types from '../../constants/action-types';
 import envato from '../../constants/api';
+import { getTokens, setTokens } from '../../auth';
 
 // User Information
 
@@ -124,22 +125,42 @@ const shouldFetchUserEarnings = state => {
   }
 };
 
-export const getUser = (username) => (dispatch, getState) => {
+const setUserFollowers = payload => ({
+  type: types.SET_USER_FOLLOWERS,
+  payload,
+});
 
-  if (shouldFetchUser(getState())) {
-    dispatch(userPending('loading'));
+const setUserSales = payload => ({
+  type: types.SET_USER_SALES,
+  payload,
+});
 
-    return envato.userDetails({
-      username,
-    }, (err, result) => {
-      if (err) {
-        dispatch(userRejected(err));
-      }
+export const hideNewFollowersBadge = (followers) => (dispatch, getState) => {
+  // if localStorage followers is not empty (if recently logged in it is empty)
+  // and not the same with the store
+  // update the store and localStorage
 
-      dispatch(userFulfilled(result.user));
-    });
+  let ls = getTokens();
+
+  if (ls.followers !== '' && ls.followers !== followers) {
+    ls.followers = followers;
+    setTokens(ls);
+    dispatch(setUserFollowers(followers));
   }
+};
 
+export const hideNewSalesBadge = (sales) => (dispatch, getState) => {
+  // if localStorage sales is not empty (if recently logged in it is empty)
+  // and not the same with the store
+  // update the store and localStorage
+
+  let ls = getTokens();
+
+  if (ls.sales !== '' && ls.sales !== sales) {
+    ls.sales = sales;
+    setTokens(ls);
+    dispatch(setUserSales(sales));
+  }
 };
 
 export const getUserAccount = () => (dispatch, getState) => {
@@ -153,6 +174,57 @@ export const getUserAccount = () => (dispatch, getState) => {
       }
 
       dispatch(userAccountFulfilled(result.account));
+    });
+  }
+};
+
+export const getUserEarnings = () => (dispatch, getState) => {
+
+  if (shouldFetchUserEarnings(getState())) {
+    dispatch(userEarningsPending('loading'));
+
+    return envato.authorEarningsSales((err, result) => {
+      if (err) {
+        dispatch(userEarningsRejected(err));
+      }
+
+      dispatch(userEarningsFulfilled(result['earnings-and-sales-by-month']));
+    });
+  }
+};
+
+export const getUser = (username) => (dispatch, getState) => {
+
+  if (shouldFetchUser(getState())) {
+    dispatch(userPending('loading'));
+
+    return envato.userDetails({}, (err, result) => {
+      if (err) {
+        dispatch(userRejected(err));
+      }
+
+      let ls = getTokens();
+      let previousFollowers = ls.followers;
+      let previousSales = ls.sales;
+
+      if (!previousFollowers) {
+        previousFollowers = result.user.followers;
+        ls.followers = result.user.followers;
+        setTokens(ls);
+      }
+
+      if (!previousSales) {
+        previousSales = result.user.sales;
+        ls.sales = result.user.sales;
+        setTokens(ls);
+      }
+
+      result.user.previousFollowers = previousFollowers;
+      result.user.previousSales = previousSales;
+      dispatch(userFulfilled(result.user));
+
+      dispatch(getUserAccount());
+      dispatch(getUserEarnings());
     });
   }
 };
@@ -176,20 +248,4 @@ export const checkBalance = () => (dispatch, getState) => {
     }
 
   });
-};
-
-export const getUserEarnings = () => (dispatch, getState) => {
-
-  if (shouldFetchUserEarnings(getState())) {
-    dispatch(userEarningsPending('loading'));
-
-    return envato.authorEarningsSales((err, result) => {
-      if (err) {
-        dispatch(userEarningsRejected(err));
-      }
-
-      dispatch(userEarningsFulfilled(result['earnings-and-sales-by-month']));
-    });
-  }
-
 };

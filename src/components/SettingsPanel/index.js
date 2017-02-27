@@ -5,7 +5,7 @@ import Switcher from '../Switcher';
 
 import { SettingsList, ListItem } from './style';
 
-const SettingsPanel = ({ handleClick, settings }) => (
+const SettingsPanel = ({ handleClick, handleLogout, settings }) => (
   <div className="child">
     <SettingsList>
       {
@@ -62,11 +62,21 @@ const SettingsPanel = ({ handleClick, settings }) => (
           onChange={handleClick} />
       </ListItem>
     </SettingsList>
+
+    <SettingsList>
+      <ListItem
+        onClick={handleLogout}
+        color="red"
+        center>
+        Log me out
+      </ListItem>
+    </SettingsList>
   </div>
 );
 
 SettingsPanel.propTypes = {
   handleClick: React.PropTypes.func,
+  handleLogout: React.PropTypes.func,
   settings: React.PropTypes.object,
 };
 

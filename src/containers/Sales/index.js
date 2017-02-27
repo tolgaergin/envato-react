@@ -13,6 +13,12 @@ class Sales extends Component {
     this.props.dispatch(updatePrevPath(this.props.location.pathname));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.shouldFetch !== nextProps.shouldFetch) {
+      this.props.dispatch(getSales());
+    }
+  }
+
   render() {
     return (
       <SalesList
@@ -28,6 +34,7 @@ const mapStateToProps = state => {
   return {
     isFetching: sales.isFetching,
     salesList: sales.data,
+    shouldFetch: sales.shouldFetch,
   };
 };
 

@@ -7,7 +7,7 @@ import store, { history } from './store/index';
 import { Router } from 'react-router';
 import routes from './routes';
 
-import './global.css';
+import './assets/global.css';
 
 render(
   <Provider store={store}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { updateSettings, updatePrevPath } from '../../store/Settings/actions';
+import { updateSettings, updatePrevPath, userLogout } from '../../store/Settings/actions';
 
 import SettingsPanel from '../../components/SettingsPanel';
 
@@ -10,6 +10,7 @@ class Settings extends Component {
     super();
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   componentDidMount() {
@@ -32,11 +33,18 @@ class Settings extends Component {
     this.props.dispatch(updateSettings(settingsName, settingsValue));
   }
 
+  handleLogout() {
+    if (confirm('Would you like to log out?')) {
+      this.props.dispatch(userLogout());
+    }
+  }
+
   render() {
     return (
       <SettingsPanel
         settings={this.props.settings}
         handleClick={this.handleClick}
+        handleLogout={this.handleLogout}
         />
     );
   }

@@ -18,3 +18,11 @@ export function niceCategoryName(category) {
 export function niceTemplateName(itemName) {
   return itemName.split(' ')[0];
 }
+
+export function printableNumber(number) {
+  if (number > 0) {
+    return `+${number}`;
+  } else {
+    return number.toString();
+  }
+}

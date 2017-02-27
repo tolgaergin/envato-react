@@ -8,8 +8,14 @@ import TemplateList from '../../components/TemplateList';
 
 class Templates extends Component {
   componentDidMount() {
-    this.props.dispatch(getTemplates('teamfox'));
+    this.props.dispatch(getTemplates());
     this.props.dispatch(updatePrevPath(this.props.location.pathname));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.shouldFetch !== nextProps.shouldFetch) {
+      this.props.dispatch(getTemplates());
+    }
   }
 
   render() {
@@ -17,7 +23,7 @@ class Templates extends Component {
       <TemplateList
         isFetching={this.props.isFetching}
         templates={this.props.templateList}
-        />
+      />
     );
   }
 }
@@ -27,6 +33,7 @@ const mapStateToProps = state => {
   return {
     isFetching: templates.isFetching,
     templateList: templates.data,
+    shouldFetch: templates.shouldFetch,
   };
 };
 

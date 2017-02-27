@@ -39,8 +39,7 @@ export const getTemplates = (username) => (dispatch, getState) => {
   if (shouldFetchTemplates(getState())) {
     dispatch(templatePending(username));
     return envato.authorFiles({
-      username,
-      site: 'ThemeForest',
+      market: 'ThemeForest',
     }, (err, result) => {
       if (err) {
         dispatch(templateRejected(err));

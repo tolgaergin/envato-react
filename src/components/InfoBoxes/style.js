@@ -7,6 +7,7 @@ export const Boxes = styled.ul `
 `;
 
 export const Box = styled.li `
+  position: relative;
   flex-basis: 33.3%;
   flex-grow: 1;
   background-color: #fff;
@@ -36,4 +37,15 @@ export const BoxText = styled.span `
     opacity: 0.5;
     margin-bottom: 5px;
   `};
+`;
+
+export const Badge = styled.div `
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background-color: #f00;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-size: 12px;
 `;

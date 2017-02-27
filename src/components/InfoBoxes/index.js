@@ -1,13 +1,19 @@
 import React from 'react';
-import { moneyFormat } from '../../constants/helper';
+import { moneyFormat, printableNumber } from '../../constants/helper';
 
 import IconEarnings from '../../assets/svg/box-earnings.svg';
 import IconSales from '../../assets/svg/box-sales.svg';
 import IconFolowers from '../../assets/svg/box-followers.svg';
 
-import { Boxes, Box, BoxText } from './style';
+import { Boxes, Box, BoxText, Badge } from './style';
 
-const InfoBoxes = ({ totalEarnings, totalSales, followers }) => (
+const InfoBoxes = ({
+  totalEarnings,
+  sales,
+  followers,
+  previousFollowers,
+  previousSales,
+}) => (
   <Boxes>
     <Box>
       <img src={IconEarnings} alt="Earnings" />
@@ -17,12 +23,20 @@ const InfoBoxes = ({ totalEarnings, totalSales, followers }) => (
     <Box>
       <img src={IconSales} alt="Sales" />
       <BoxText info>Sales</BoxText>
-      <BoxText>{totalSales}</BoxText>
+      <BoxText>{sales}</BoxText>
+      {
+        (sales !== previousSales && previousSales !== '') &&
+          <Badge>{printableNumber(sales - previousSales)}</Badge>
+      }
     </Box>
     <Box>
       <img src={IconFolowers} alt="Followers" />
       <BoxText info>Followers</BoxText>
       <BoxText>{followers}</BoxText>
+      {
+        (followers !== previousFollowers && previousFollowers !== '') &&
+          <Badge>{printableNumber(followers - previousFollowers)}</Badge>
+      }
     </Box>
   </Boxes>
 );
@@ -32,11 +46,19 @@ InfoBoxes.propTypes = {
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
-  totalSales: React.PropTypes.oneOfType([
+  sales: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
   followers: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  previousFollowers: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  previousSales: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),

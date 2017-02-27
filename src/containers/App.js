@@ -29,11 +29,15 @@ class App extends Component {
   componentDidUpdate(prevProps) {
     // if there is a new sale, play the sound
     if (this.props.sound && (prevProps.lastSaleDate < this.props.lastSaleDate)) {
-      const sound = new Howl({
-        src: [chaChing],
-      });
-      sound.play();
+      this.playSound();
     }
+  }
+
+  playSound() {
+    const sound = new Howl({
+      src: [chaChing],
+    });
+    sound.play();
   }
 
   render() {
@@ -67,6 +71,12 @@ const mapStateToProps = state => {
     prevPath: settings.prevPath,
     lastSaleDate: summary.lastSaleDate,
     sound: settings.settings.sound,
+
+    followers: summary.userDetails.followers,
+    previousFollowers: summary.userDetails.previousFollowers,
+
+    sales: summary.userDetails.sales,
+    previousSales: summary.userDetails.previousSales,
   };
 };
 

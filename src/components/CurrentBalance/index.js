@@ -1,11 +1,15 @@
 import React from 'react';
 
-import { BalanceContainer, Heading, Balance } from './style';
+import { BalanceContainer, Heading, Balance, Poor } from './style';
 
 const CurrentBalance = ({ currentBalance }) => (
   <BalanceContainer>
     <Heading>Current Balance</Heading>
-    <Balance><sup>$</sup>{currentBalance}</Balance>
+    {currentBalance === '0.00' ? (
+      <Poor>As poor as Lazarus</Poor>
+    ) : (
+      <Balance><sup>$</sup>{currentBalance}</Balance>
+    )}
   </BalanceContainer>
 );
 

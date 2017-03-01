@@ -135,6 +135,7 @@ class EnvatoApi {
   }
 
   askNewToken(options, callback) {
+    console.log(this);
     const params = querystring.stringify({
       grant_type: 'refresh_token',
       refresh_token: this.refreshToken,

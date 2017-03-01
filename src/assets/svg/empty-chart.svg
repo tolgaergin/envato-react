@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="376px" height="204px" viewBox="0 0 376 204" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FBFBFB;">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Chart</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="49.837257%" y1="83.9800297%" x2="42.679042%" y2="-129.829976%" id="linearGradient-1">
+            <stop stop-color="#67FD51" stop-opacity="0.320057745" offset="0%"></stop>
+            <stop stop-color="#1BE22F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.198822464">
+        <g id="Chart" transform="translate(1.000000, 0.000000)">
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="330.319161" y="1.99468085" width="0.527759309" height="55.8510638"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="288.098404" y="1.99468085" width="0.527759309" height="35.451834"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="245.87766" y="1.99468085" width="0.527759309" height="71.8085106"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="203.656915" y="1.99468085" width="0.527759309" height="91.7553191"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="161.43617" y="1.99468085" width="0.527759309" height="108.710106"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="119.215426" y="1.99468085" width="0.527759309" height="135.638298"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="76.9946809" y="1.99468085" width="0.527759309" height="140.625"></rect>
+            <rect id="Line" fill="#7F7F7F" opacity="0.2" x="34.7739362" y="1.99468085" width="0.527759309" height="142.619681"></rect>
+            <path d="M0,163.378054 C0,163.378054 23.3423747,158.906344 34.8137273,144.56902 C46.2850798,130.231696 65.7863792,136.658772 82.9934081,147.040972 C93.2878112,153.252303 102.14516,151.677653 109.933915,146.234059 C115.164014,142.578721 119.912281,137.178861 124.290277,131.220477 C135.188062,116.388762 153.542226,108.478514 169.028552,112.433638 C184.514878,116.388762 204.589745,94.1411903 212.619692,82.2758187 C220.649639,70.4104471 230.400289,74.8599614 240.724506,74.8599614 C251.048723,74.8599615 266.605089,74.5610444 272.340765,57.7517679 C278.076441,40.9424914 292.55156,33.0725359 308.611454,37.5220503 C324.671348,41.9715646 326.75965,79.8038691 374.939331,79.8038663 L374.939331,203.101523 L0,203.101523" id="Path" fill="url(#linearGradient-1)"></path>
+            <path d="M0.958496094,163.74707 C0.958496094,163.74707 24.3172369,159.091742 35.759382,144.790922 C47.2015271,130.490103 66.6531738,136.900815 83.8163915,147.256581 C100.979609,157.612347 114.138076,146.270317 125.008114,131.476366 C135.878152,116.682415 154.185584,108.792308 169.63248,112.737361 C185.079376,116.682415 205.10313,94.4914882 213.112631,82.6563273 C221.122133,70.8211663 230.847956,75.2593516 241.145887,75.2593517 C251.443817,75.2593517 267.635898,73.3214008 273.356971,56.5549228 C279.078043,39.7884447 293.595871,33.4638275 309.614874,37.9020128 C325.633878,42.3401982 325.942991,79.2789877 374,79.2789849" id="Path" stroke="#51FD6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"></path>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="330.846908" cy="57.9987289" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="288.626164" cy="38.8274255" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="246.405419" cy="72.9584493" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="204.184674" cy="93.2118052" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="161.96393" cy="110.70334" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="119.743185" cy="137.400945" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="77.5224402" cy="142.924588" rx="1.58327793" ry="1.38091063"></ellipse>
+            <ellipse id="Oval" stroke="#37C34A" fill="#FFFFFF" cx="35.3016955" cy="143.639" rx="1.58327793" ry="1.38091063"></ellipse>
+            <g id="Texts" transform="translate(39.893617, 0.000000)" font-weight="normal" font-family="SFUIText-Regular, SF UI Text" fill="#000000" font-size="12" opacity="0.2">
+                <text id="Jan" transform="translate(305.684840, 11.986702) rotate(90.000000) translate(-305.684840, -11.986702) ">
+                    <tspan x="295.212766" y="15.9867021">Jan</tspan>
+                </text>
+                <text id="Dec" transform="translate(264.793883, 11.986702) rotate(90.000000) translate(-264.793883, -11.986702) ">
+                    <tspan x="253.324468" y="15.9867021">Dec</tspan>
+                </text>
+                <text id="Nov" transform="translate(221.908245, 11.986702) rotate(90.000000) translate(-221.908245, -11.986702) ">
+                    <tspan x="210.43883" y="15.9867021">Nov</tspan>
+                </text>
+                <text id="Oct" transform="translate(180.019947, 11.986702) rotate(90.000000) translate(-180.019947, -11.986702) ">
+                    <tspan x="169.547872" y="15.9867021">Oct</tspan>
+                </text>
+                <text id="Sep" transform="translate(139.627660, 11.986702) rotate(90.000000) translate(-139.627660, -11.986702) ">
+                    <tspan x="128.656915" y="15.9867021">Sep</tspan>
+                </text>
+                <text id="Aug" transform="translate(97.240691, 11.986702) rotate(90.000000) translate(-97.240691, -11.986702) ">
+                    <tspan x="85.7712766" y="15.9867021">Aug</tspan>
+                </text>
+                <text id="Jul" transform="translate(51.363032, 11.986702) rotate(90.000000) translate(-51.363032, -11.986702) ">
+                    <tspan x="42.8856383" y="15.9867021">Jul</tspan>
+                </text>
+                <text id="Jun" transform="translate(11.469415, 11.986702) rotate(90.000000) translate(-11.469415, -11.986702) ">
+                    <tspan x="0.997340426" y="15.9867021">Jun</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

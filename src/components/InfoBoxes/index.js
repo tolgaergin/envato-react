@@ -18,12 +18,21 @@ const InfoBoxes = ({
     <Box>
       <img src={IconEarnings} alt="Earnings" />
       <BoxText info>Earnings</BoxText>
-      <BoxText>${moneyFormat(totalEarnings)}</BoxText>
+      {totalEarnings ? (
+        <BoxText>${moneyFormat(totalEarnings)}</BoxText>
+      ) : (
+        <BoxText>-</BoxText>
+      )}
     </Box>
     <Box>
       <img src={IconSales} alt="Sales" />
       <BoxText info>Sales</BoxText>
-      <BoxText>{sales}</BoxText>
+      {sales !== '0' ? (
+        <BoxText>{sales}</BoxText>
+      ) : (
+        <BoxText>-</BoxText>
+      )}
+
       {
         (sales !== previousSales && previousSales !== '') &&
           <Badge>{printableNumber(sales - previousSales)}</Badge>
@@ -32,7 +41,12 @@ const InfoBoxes = ({
     <Box>
       <img src={IconFolowers} alt="Followers" />
       <BoxText info>Followers</BoxText>
-      <BoxText>{followers}</BoxText>
+      {followers !== '0' ? (
+        <BoxText>{followers}</BoxText>
+      ) : (
+        <BoxText>-</BoxText>
+      )}
+
       {
         (followers !== previousFollowers && previousFollowers !== '') &&
           <Badge>{printableNumber(followers - previousFollowers)}</Badge>

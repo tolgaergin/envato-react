@@ -25,3 +25,9 @@ export const Balance = styled.div `
     color: #377f35;
   }
 `;
+
+export const Poor = styled.div `
+  font-size: 32px;
+  color: #c5312d;
+  margin-bottom: 45px;
+`;;

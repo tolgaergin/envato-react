@@ -59,3 +59,24 @@ export const StyledText = styled.text `
 export const StyledFocus = styled.g `
   display: none;
 `;
+
+export const StyledEmpty = styled.div `
+  position: relative;
+`;
+
+export const EmptySvg = styled.img `
+  display: block;
+  width: 100%;
+  height: auto;
+`;
+
+export const EmptyText = styled.div `
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7b7b7b;
+  font-size: 18px;
+  text-align: center;
+  padding: 0 40px;
+  margin-top: -40px;
+`;;

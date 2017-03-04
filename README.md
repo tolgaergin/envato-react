@@ -24,3 +24,11 @@ npm run build
 - [Login flow](https://github.com/mxstbr/login-flow)
 
 - [mapDispatchToProps](http://stackoverflow.com/questions/34458261/how-to-get-simple-dispatch-from-this-props-using-connect-w-redux)
+
+### Electron distribution
+In electron version of your application, you should use hashHistory instead of browserHistory for app routers.
+
+- [Electron builder](https://github.com/electron-userland/electron-builder)
+- [Electron builder options](https://github.com/electron-userland/electron-builder/wiki/Options)
+- [Electron builder explained](http://electron.rocks/electron-builder-explained/)
+- [Mac Installer specification](https://www.npmjs.com/package/appdmg#json-specification)

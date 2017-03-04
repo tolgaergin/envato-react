@@ -9,29 +9,41 @@ const initialState = {
 
 const sales = (state=initialState, action) => {
   switch (action.type) {
-    case types.GET_SALES_FULFILLED:
+
+    case types.SALES_SHOULD_FETCH: {
+      return {
+        ...state,
+        shouldFetch: true,
+        error: null,
+      };
+    }
+
+    case types.GET_SALES_FULFILLED: {
       return {
         ...state,
         data: action.payload,
         isFetching: false,
         shouldFetch: false,
+        error: null,
       };
-    case types.GET_SALES_PENDING:
+    }
+
+    case types.GET_SALES_PENDING: {
       return {
         ...state,
         isFetching: true,
+        error: null,
       };
-    case types.GET_SALES_REJECTED:
+    }
+
+    case types.GET_SALES_REJECTED: {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
       };
-    case types.SHOULD_FETCH_SALES:
-      return {
-        ...state,
-        shouldFetch: true,
-      };
+    }
+
     default:
       return state;
   }

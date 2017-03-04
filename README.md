@@ -22,3 +22,5 @@ npm run build
 - [D3 Chart example](https://gist.github.com/joshblack/09226f76ca55c5c82be1f2766c1fdc23)
 
 - [Login flow](https://github.com/mxstbr/login-flow)
+
+- [mapDispatchToProps](http://stackoverflow.com/questions/34458261/how-to-get-simple-dispatch-from-this-props-using-connect-w-redux)

@@ -9,7 +9,7 @@ import {
 } from './style';
 
 function InformationPage(props) {
-  const { image, text, buttonText, buttonHref } = props;
+  const { image, text, buttonText, buttonHref, buttonClick } = props;
   return (
     <div className="child">
       <EmptyCenter>
@@ -17,7 +17,10 @@ function InformationPage(props) {
         <EmptyMessage>{text}</EmptyMessage>
       </EmptyCenter>
       <EmptyBottom>
-        <Button href={buttonHref}>{buttonText}</Button>
+        <Button
+          href={buttonHref}
+          onClick={buttonClick}
+        >{buttonText}</Button>
       </EmptyBottom>
     </div>
   );
@@ -28,6 +31,7 @@ InformationPage.propTypes = {
   text: React.PropTypes.string,
   buttonText: React.PropTypes.string,
   buttonHref: React.PropTypes.string,
+  buttonClick: React.PropTypes.func,
 };
 
 export default InformationPage;

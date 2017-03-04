@@ -9,29 +9,41 @@ const initialState = {
 
 const templates = (state=initialState, action) => {
   switch (action.type) {
-    case types.GET_TEMPLATE_FULFILLED:
+
+    case types.TEMPLATE_SHOULD_FETCH: {
+      return {
+        ...state,
+        shouldFetch: true,
+        error: null,
+      };
+    }
+
+    case types.GET_TEMPLATE_FULFILLED: {
       return {
         ...state,
         data: action.payload,
         isFetching: false,
         shouldFetch: false,
+        error: null,
       };
-    case types.GET_TEMPLATE_PENDING:
+    }
+
+    case types.GET_TEMPLATE_PENDING: {
       return {
         ...state,
         isFetching: true,
+        error: null,
       };
-    case types.GET_TEMPLATE_REJECTED:
+    }
+
+    case types.GET_TEMPLATE_REJECTED: {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
       };
-    case types.SHOULD_FETCH_TEMPLATES:
-      return {
-        ...state,
-        shouldFetch: true,
-      };
+    }
+
     default:
       return state;
   }

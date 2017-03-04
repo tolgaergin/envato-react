@@ -1,29 +1,38 @@
 import React, { Component } from 'react';
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getUser, hideNewFollowersBadge, hideNewSalesBadge } from '../../store/Summary/actions';
+import {
+  getUser,
+  hideNewSalesBadge,
+  hideNewFollowersBadge,
+  userShouldFetch } from '../../store/Summary/actions';
 import { updatePrevPath } from '../../store/Settings/actions';
 
 import Loading from '../../components/Loading';
 import CurrentBalance from '../../components/CurrentBalance';
 import MonthlyChart from '../Chart';
+import EmptyChart from '../../components/Chart/EmptyChart';
 import InfoBoxes from '../../components/InfoBoxes';
+
+import InformationPage from '../../components/InformationPage';
+import emptyError from '../../assets/svg/empty-error.svg';
 
 class Summary extends Component {
 
   componentDidMount() {
-    this.props.dispatch(getUser());
-    this.props.dispatch(updatePrevPath(this.props.location.pathname));
+    this.props.getUser();
+    this.props.updatePrevPath(this.props.location.pathname);
   }
 
   componentWillUnmount() {
-    this.props.dispatch(hideNewFollowersBadge(this.props.followers));
-    this.props.dispatch(hideNewSalesBadge(this.props.sales));
+    this.props.hideNewFollowersBadge(this.props.followers);
+    this.props.hideNewSalesBadge(this.props.sales);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.shouldFetchUser !== nextProps.shouldFetchUser) {
-      this.props.dispatch(getUser());
+      this.props.getUser();
     }
   }
 
@@ -38,10 +47,22 @@ class Summary extends Component {
       followers,
       previousFollowers,
       previousSales,
+      error,
     } = this.props;
 
     if (isFetchingUserEarnings || isFetchingUser || isFetchingUserAccount) {
       return <Loading />;
+    }
+
+    if (error) {
+      return (
+        <InformationPage
+          image={emptyError}
+          text="While getting your data there was an error"
+          buttonText="Try to get data again"
+          buttonClick={this.props.userShouldFetch.bind(this)}
+        />
+      );
     }
 
     let totalEarnings;
@@ -55,7 +76,7 @@ class Summary extends Component {
     return (
       <div className="child">
         <CurrentBalance currentBalance={currentBalance} />
-        <MonthlyChart userEarnings={userEarnings} />
+        { userEarnings.length > 0 ? <MonthlyChart userEarnings={userEarnings} /> : <EmptyChart /> }
         <InfoBoxes
           totalEarnings={totalEarnings}
           sales={sales}
@@ -75,6 +96,7 @@ const mapStateToProps = state => {
     isFetchingUserEarnings: summary.isFetchingUserEarnings,
 
     shouldFetchUser: summary.shouldFetchUser,
+    error: summary.error,
 
     currentBalance: summary.userAccount.available_earnings,
     userEarnings: summary.userEarnings,
@@ -85,4 +107,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Summary);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({
+    getUser,
+    hideNewSalesBadge,
+    hideNewFollowersBadge,
+    userShouldFetch,
+    updatePrevPath,
+  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Summary);

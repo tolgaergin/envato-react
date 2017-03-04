@@ -15,13 +15,7 @@ import {
   StyledFocus,
   StyledTooltipRect,
   StyledRectClip,
-  StyledEmpty,
-  EmptySvg,
-  EmptyText,
 } from '../../components/Chart/style';
-
-// import svg for empty state
-import emptyChart from '../../assets/svg/empty-chart.svg';
 
 // set the dimensions and margins of the chart
 const settings = {
@@ -31,8 +25,10 @@ const settings = {
     bottom: 0,
     left: -1,
   },
+
   fullWidth: 375,
   fullHeight: 220,
+
   get width() {
     return this.fullWidth - this.margin.left - this.margin.right;
   },
@@ -164,72 +160,59 @@ class Chart extends React.Component {
     }
 
     return (
-      <div>
-        {
-          data.length === 0 ? (
-            <StyledEmpty>
-              <EmptySvg src={emptyChart} />
-              <EmptyText>
-                There isn’t enough data to create your beautiful sales chart
-              </EmptyText>
-            </StyledEmpty>
-          ) : (
-            <RelativeDiv width={settings.fullWidth} height={settings.fullHeight}>
-              <StyledChartTooltip innerRef={comp => this.tooltip = comp} />
-              <svg width={settings.fullWidth} height={settings.fullHeight}>
-                <defs>
-                  <linearGradient id="gradient" x1="0" x2="0" y1="1" y2="0">
-                    <stop offset="0%" stopColor="rgba(103, 253, 81, 0.3)" />
-                    <stop offset="100%" stopColor="rgba(103, 253, 81, 0.7)" />
-                  </linearGradient>
-                </defs>
-                <g transform={`translate(${settings.margin.left},${settings.margin.top})`}>
-                  <Area
-                    area={generateArea(data)}
-                    clipPath="clipPath"
-                    gradient="gradient" />
-                  <Line
-                    line={generateLine(data)}
-                    clipPath="clipPath" />
-                  <Dots
-                    circles={data}
-                    clipPath="clipPath"
-                    setX={setX}
-                    setY={setY} />
-                  <VerticalGrids
-                    grids={data}
-                    clipPath="clipPath"
-                    margin={settings.margin}
-                    setX={setX}
-                    setY={setY} />
-                  <VerticalGridTexts
-                    texts={data}
-                    setX={setX}
-                    margin={settings.margin} />
-                  <StyledFocus innerRef={comp => this.focus = comp}>
-                    <circle r="5" fill="#2dc543"></circle>
-                  </StyledFocus>
-                  <StyledTooltipRect
-                    width={settings.fullWidth}
-                    height={settings.height}
-                    innerRef={comp => this.rect = comp}
-                    onMouseOut={this.mouseOut}
-                    onMouseOver={this.mouseOver}
-                  />
-                  <clipPath id="clipPath">
-                    <StyledRectClip
-                      innerRef={comp => this.rectClip = comp}
-                      width="0"
-                      height={settings.fullHeight}
-                      y="-65"
-                      x="0" />
-                  </clipPath>
-                </g>
-              </svg>
-            </RelativeDiv>
-          )
-        }
-      </div>
+      <RelativeDiv width={settings.fullWidth} height={settings.fullHeight}>
+        <StyledChartTooltip innerRef={comp => this.tooltip = comp} />
+        <svg width={settings.fullWidth} height={settings.fullHeight}>
+          <defs>
+            <linearGradient id="gradient" x1="0" x2="0" y1="1" y2="0">
+              <stop offset="0%" stopColor="rgba(103, 253, 81, 0.3)" />
+              <stop offset="100%" stopColor="rgba(103, 253, 81, 0.7)" />
+            </linearGradient>
+          </defs>
+          <g transform={`translate(${settings.margin.left},${settings.margin.top})`}>
+            <Area
+              area={generateArea(data)}
+              clipPath="clipPath"
+              gradient="gradient" />
+            <Line
+              line={generateLine(data)}
+              clipPath="clipPath" />
+            <Dots
+              circles={data}
+              clipPath="clipPath"
+              setX={setX}
+              setY={setY} />
+            <VerticalGrids
+              grids={data}
+              clipPath="clipPath"
+              margin={settings.margin}
+              setX={setX}
+              setY={setY} />
+            <VerticalGridTexts
+              texts={data}
+              setX={setX}
+              margin={settings.margin} />
+            <StyledFocus innerRef={comp => this.focus = comp}>
+              <circle r="5" fill="#2dc543"></circle>
+            </StyledFocus>
+            <StyledTooltipRect
+              width={settings.fullWidth}
+              height={settings.height}
+              innerRef={comp => this.rect = comp}
+              onMouseOut={this.mouseOut}
+              onMouseOver={this.mouseOver}
+            />
+            <clipPath id="clipPath">
+              <StyledRectClip
+                innerRef={comp => this.rectClip = comp}
+                width="0"
+                height={settings.fullHeight}
+                y="-65"
+                x="0" />
+            </clipPath>
+          </g>
+        </svg>
+      </RelativeDiv>
     );
   }
 }

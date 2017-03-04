@@ -68,6 +68,11 @@ const userEarningsRejected = payload => ({
   payload,
 });
 
+export const userShouldFetch = payload => ({
+  type: types.USER_SHOULD_FETCH,
+  payload,
+});
+
 const shouldFetchUser = state => {
   const summary = state.summary;
 
@@ -83,8 +88,10 @@ const shouldFetchUser = state => {
 
   // if fetching continues stop fetching again
   if (summary.isFetchingUser) {
+    console.log('4');
     return false;
   }
+
 };
 
 const shouldFetchUserAccount = state => {

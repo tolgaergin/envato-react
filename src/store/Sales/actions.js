@@ -16,6 +16,11 @@ const salesRejected = payload => ({
   payload,
 });
 
+export const salesShouldFetch = payload => ({
+  type: types.SALES_SHOULD_FETCH,
+  payload,
+});
+
 const shouldFetchSales = state => {
   const sales = state.sales;
 

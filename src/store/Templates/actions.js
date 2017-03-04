@@ -16,6 +16,11 @@ const templateRejected = payload => ({
   payload,
 });
 
+export const templateShouldFetch = payload => ({
+  type: types.TEMPLATE_SHOULD_FETCH,
+  payload,
+});
+
 const shouldFetchTemplates = state => {
   const templates = state.templates;
 

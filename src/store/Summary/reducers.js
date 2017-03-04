@@ -16,12 +16,23 @@ const initialState = {
 
 const summary = (state=initialState, action) => {
   switch (action.type) {
+    case types.USER_SHOULD_FETCH: {
+      return {
+        ...state,
+        shouldFetchUser: true,
+        shouldFetchUserAccount: true,
+        shouldFetchUserEarnings: true,
+        error: null,
+      };
+    }
+
     case types.GET_USER_FULFILLED: {
       return {
         ...state,
         userDetails: action.payload,
         isFetchingUser: false,
         shouldFetchUser: false,
+        error: null,
       };
     }
 
@@ -29,6 +40,7 @@ const summary = (state=initialState, action) => {
       return {
         ...state,
         isFetchingUser: true,
+        error: null,
       };
     }
 
@@ -46,6 +58,7 @@ const summary = (state=initialState, action) => {
         userAccount: action.payload,
         isFetchingUserAccount: false,
         shouldFetchUserAccount: false,
+        error: null,
       };
     }
 
@@ -53,6 +66,7 @@ const summary = (state=initialState, action) => {
       return {
         ...state,
         isFetchingUserAccount: true,
+        error: null,
       };
     }
 
@@ -70,6 +84,7 @@ const summary = (state=initialState, action) => {
         userEarnings: action.payload,
         isFetchingUserEarnings: false,
         shouldFetchUserEarnings: false,
+        error: null,
       };
     }
 
@@ -77,6 +92,7 @@ const summary = (state=initialState, action) => {
       return {
         ...state,
         isFetchingUserEarnings: true,
+        error: null,
       };
     }
 

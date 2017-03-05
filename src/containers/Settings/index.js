@@ -5,6 +5,10 @@ import { updateSettings, updatePrevPath, userLogout } from '../../store/Settings
 
 import SettingsPanel from '../../components/SettingsPanel';
 
+const electron = window.require('electron');
+electron.remote.require('fs');
+const ipcRenderer = electron.ipcRenderer;
+
 class Settings extends Component {
   constructor() {
     super();
@@ -15,6 +19,24 @@ class Settings extends Component {
 
   componentDidMount() {
     this.props.dispatch(updatePrevPath(this.props.location.pathname));
+
+    //ipcRenderer example, from http://electron.atom.io/docs/api/ipc-main/
+    console.log(ipcRenderer.sendSync('synchronous-message', 'synch message gonder'));
+
+    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+        console.log(arg);// prints "pong"
+      });
+    ipcRenderer.send('asynchronous-message', 'async message gonder');
+
+    ipcRenderer.on('authorize-user-reply', (event, arg) => {
+      console.log(arg);
+    });
+    ipcRenderer.send('authorize-user', 'hadi');
+  }
+
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners('asynchronous-reply');
+    ipcRenderer.removeAllListeners('authorize-user-reply');
   }
 
   handleClick(e) {

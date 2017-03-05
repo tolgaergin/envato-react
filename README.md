@@ -32,3 +32,11 @@ In electron version of your application, you should use hashHistory instead of b
 - [Electron builder options](https://github.com/electron-userland/electron-builder/wiki/Options)
 - [Electron builder explained](http://electron.rocks/electron-builder-explained/)
 - [Mac Installer specification](https://www.npmjs.com/package/appdmg#json-specification)
+
+### Electron development
+DevTools
+
+- [Electron create-react-app](https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.xf1izgp6g)
+- [Electron React Redux Boilerplate](https://github.com/jschr/electron-react-redux-boilerplate)
+- [Devtools extensions](https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md)
+- [Load devtools](https://schier.co/blog/2016/08/09/react-dev-tools-in-electron/)

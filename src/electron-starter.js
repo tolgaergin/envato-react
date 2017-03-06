@@ -1,13 +1,20 @@
 // Module to control application life.
 const path = require('path');
-const url = require('url');
+const nodeUrl = require('url');
 
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const Menu = electron.menu;
+const Menu = electron.Menu || electron.remote.Menu;
 const ipcMain = electron.ipcMain;
 const shell = electron.shell;
+const Tray = electron.Tray;
+
+const config = {
+  clientId: 'envaton-yup4hshr',
+  clientSecret: 'ELuMHNFC6xXnQbxDHJqsPfIdtnncFDdV',
+  redirectUri: 'http://localhost:3000/login',
+};
 
 const isDevelopment = (process.env.NODE_ENV === 'development');
 
@@ -36,6 +43,7 @@ const installExtensions = async () => {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let trayIcon = null;
 
 let forceQuit = false;
 
@@ -59,17 +67,24 @@ app.on('ready', async () => {
 
   // Create the browser window.
   if (isDevelopment) {
-    mainWindow = new BrowserWindow({ width: 960, height: 680, show: false });
+    mainWindow = new BrowserWindow({ width: 960, height: 680, show: false, title: app.getName() });
   } else {
     mainWindow = new BrowserWindow({ width: 375, height: 624, show: false });
   }
 
   // and load the index.html of the app.
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
+  const startUrl = process.env.ELECTRON_START_URL || nodeUrl.format({
     pathname: path.join(__dirname, '/../build/index.html'),
     protocol: 'file:',
     slashes: true,
   });
+
+  // mainWindow.setAlwaysOnTop(true, 'screen-saver');
+  // mainWindow.on('blur', () => {
+  //   console.log('blur mainWindow.isFocused()', mainWindow.isFocused());
+  //   mainWindow.hide();
+  // });
+
   mainWindow.loadURL(startUrl);
 
   // show window once on first load
@@ -102,6 +117,38 @@ app.on('ready', async () => {
         mainWindow = null;
       });
     }
+  });
+
+  trayIcon = new Tray(__dirname + '/assets/menubar/envato.png');
+  // trayIcon.setTitle('Tolga');
+  // trayIcon.setToolTip('This is my application.');
+
+  var trayMenuTemplate = [
+    {
+        label: 'Sound machine',
+        enabled: false,
+      },
+    {
+        label: 'Settings',
+        click: function () {
+            ipc.send('open-settings-window');
+          },
+      },
+    {
+        label: 'Quit',
+        click: function () {
+            ipc.send('close-main-window');
+          },
+      },
+];
+  var trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
+
+  trayIcon.on('click', function () {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+  });
+
+  trayIcon.on('right-click', function () {
+    trayIcon.popUpContextMenu(trayMenu);
   });
 
   if (isDevelopment) {
@@ -165,11 +212,49 @@ ipcMain.on('authorize-user', (event, arg) => {
     autoHideMenuBar: true,
   });
 
-  authWindow.loadURL('http://teamfox.co');
+  const loginUrl = 'https://api.envato.com/authorization' +
+  '?response_type=code' +
+  '&client_id=' + config.clientId +
+  '&redirect_uri=' + config.redirectUri;
+
+  authWindow.loadURL(loginUrl);
   authWindow.show();
-  event.sender.send('authorize-user-reply', 'opened');
+  event.sender.send('authorize-user-reply', loginUrl);
+
+  function onCallback(url) {
+    const urlParts = nodeUrl.parse(url, true);
+    const query = urlParts.query;
+    const code = query.code;
+    const error = query.error;
+
+    if (error !== undefined) {
+      event.sender.send('authorize-user-reply', error);
+
+      authWindow.removeAllListeners('closed');
+      setImmediate(function () {
+        authWindow.close();
+        mainWindow.show();
+      });
+    } else if (code) {
+      event.sender.send('authorize-user-reply', code);
+
+      authWindow.removeAllListeners('closed');
+      setImmediate(function () {
+        authWindow.close();
+        mainWindow.show();
+      });
+    }
+  }
 
   authWindow.on('closed', () => {
     event.sender.send('authorize-user-reply', 'closed');
+  });
+
+  authWindow.webContents.on('will-navigate', (event, url) => {
+    onCallback(url);
+  });
+
+  authWindow.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
+    onCallback(newUrl);
   });
 });

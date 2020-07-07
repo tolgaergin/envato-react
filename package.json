@@ -8,7 +8,7 @@
   "homepage": ".",
   "main": "src/electron-starter.js",
   "devDependencies": {
-    "electron": "^1.6.1",
+    "electron": "^9.1.0",
     "enzyme": "^2.7.1",
     "foreman": "^2.0.0",
     "nock": "^9.0.6",
